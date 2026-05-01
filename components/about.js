@@ -11,12 +11,12 @@ export const About = () => `
 
     <div class="flex items-center gap-2 mb-4">
         <i class="fa-solid fa-circle-info text-gray-900 dark:text-white text-lg"></i>
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">About Me</h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">About Kapit</h3>
     </div>
 
     <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-[15px] text-justify">
         Halo, nama saya Kafit Mustofa. Lulusan S1-Teknik Informatika yang menyukai dunia digital. 
-        saya memiliki pengalaman sebagai Social Media Specialist, Content Creator dan Digital 
+        saya memiliki pengalaman sebagai Social Media Specialist, ARTIS PAPAN ATAS,Content Creator dan Digital 
         marketing. Rasanya luar biasa melihat diri saya berkembang, dan saya berharap dapat terus 
         berkembang dan menjadi lebih baik dari sekarang.
     </p>
