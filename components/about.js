@@ -5,7 +5,7 @@ export const About = () => `
 
     <div class="flex justify-center mb-8">
         <div class="w-48 h-56 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm bg-blue-100">
-            <img src="./img/icon/profile.jpg" alt="Foto Kafit Mustofa" class="w-full h-full object-cover" onerror="this.src='https://i.pravatar.cc/300?img=11'">
+            <img src="./img/icon/profile.jpg" alt="Foto Kafit Mustofa" class="w-full h-full object-cover" onerror="this.src='https://i.pravatar.cc/300?img=12'">
         </div>
     </div>
 
