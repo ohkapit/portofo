@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafit Mustofa - Personal Portfolio</title>
+    
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+                    colors: { primary: '#3366cc', bgLight1: '#9ec4f5', bgLight2: '#c9e0fa' },
+                    animation: { 'fade-in': 'fadeIn 0.4s ease-out forwards' },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background-color: #475569; }
+        body, .card-bg { transition: background-color 0.3s ease, color 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-bgLight1 to-bgLight2 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200 font-poppins min-h-screen flex items-center justify-center p-4 lg:p-8">
+
+    <!-- Container Utama (di-inject via JS) -->
+    <div id="app" class="max-w-6xl w-full flex flex-col md:flex-row gap-6 h-[95vh] md:h-[85vh]"></div>
+
+    <!-- Modal Popup Container -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div id="project-modal-content" class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-900 dark:text-white">Project Title</h3>
+                <button onclick="window.closeModal()" class="text-gray-500 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto">
+                <div class="relative w-full h-auto mb-3 group">
+                    <img id="modal-image" src="" class="w-full h-64 md:h-80 object-cover rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-opacity duration-300">
+                    <button onclick="window.prevModalImage()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80 focus:outline-none" id="modal-prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button onclick="window.nextModalImage()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80 focus:outline-none" id="modal-next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div id="modal-thumbnails" class="flex gap-2 mb-4 overflow-x-auto pb-2 hidden scrollbar-hide"></div>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-2">Deskripsi Proyek:</h4>
+                <p id="modal-desc" class="text-gray-600 dark:text-gray-300 leading-relaxed text-[15px] text-justify"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panggil Entry Point JavaScript -->
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
