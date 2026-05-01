@@ -8,7 +8,7 @@ export const Sidebar = () => `
     <div class="flex flex-col items-center mt-4">
         <!-- Foto Profil dari folder lokal img/icon/profile.jpg -->
         <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-md mb-4 bg-blue-100 flex items-center justify-center">
-            <img src="./img/icon/profile.jpg" alt="Kafit Mustofa" class="w-full h-full object-cover" onerror="this.src='https://i.pravatar.cc/300?img=11'">
+            <img src="./img/icon/profil.jpg" alt="Kafit Mustofa" class="w-full h-full object-cover" onerror="this.src='https://i.pravatar.cc/300?img=11'">
         </div>
         <h1 class="text-xl font-bold text-gray-900 dark:text-white text-center">Kafit Mustofa</h1>
         <p class="text-sm text-center text-gray-600 dark:text-gray-400 mt-2 font-medium px-2">
