@@ -17,7 +17,7 @@ export const Projects = () => `
             ${Card(
                 'Movie Finder', 
                 'Aplikasi web pencarian film dengan menggunakan API dari TMDB.', 
-                ['./img/project/movie-1.jpg'], 
+                ['./img/project/dm1.jpg'], 
                 '#'
             )}
         </div>
