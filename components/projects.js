@@ -20,6 +20,18 @@ export const Projects = () => `
                 ['./img/project/dm1.jpg'], 
                 '#'
             )}
+             ${Card(
+                'JJ DJ', 
+                'Sistem Pakar Kerusakan Komputer berbasis web untuk mendiagnosis kerusakan hardware.', 
+                ['./img/project/sipak-1.jpg', './img/project/sipak-2.jpg'], // Akan error jika gambar lokal ini tidak ada
+                'https://drive.google.com/file/d/1oW2x9dmAZ3UidtX-BPjqyrJelBiroxB3/view?usp=sharing'
+            )}
+            ${Card(
+                'ALOY ALOY', 
+                'Aplikasi web pencarian film dengan menggunakan API dari TMDB.', 
+                ['./img/project/dm1.jpg'], 
+                '#'
+            )}
         </div>
     </div>
 </section>
