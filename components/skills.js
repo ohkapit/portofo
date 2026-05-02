@@ -35,6 +35,7 @@ export const Skills = () => {
     <section id="skills" class="content-section hidden">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Skills</h2>
         <div class="w-full h-px bg-gray-200 dark:bg-gray-700 mb-6"></div>
+
         <div class="pb-4">
             <h3 class="font-bold text-gray-500 dark:text-gray-400 mb-4 text-lg">Soft Skill</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mb-8">
@@ -42,11 +43,11 @@ export const Skills = () => {
             </div>
 
             <h3 class="font-bold text-gray-500 dark:text-gray-400 mb-4 text-lg">Hard Skill</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mb-8">
                 ${hardSkills.map(skill => MiniCard(skill)).join('')}
             </div>
 
-            <h3 class="font-bold text-gray-500 dark:text-gray-400 mb-4 mt-8 text-lg">Software</h3>
+            <h3 class="font-bold text-gray-500 dark:text-gray-400 mb-4 text-lg">Software</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 ${software.map(skill => MiniCard(skill)).join('')}
             </div>
