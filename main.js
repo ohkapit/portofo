@@ -4,7 +4,35 @@ import { Content } from './components/content.js';
 // === 1. RENDER APLIKASI UTAMA === //
 document.getElementById('app').innerHTML = Sidebar() + Content();
 
-// === 2. LOGIKA NAVIGASI TAB & HISTORY API === //
+// === 2. LOGIKA ANIMASI HANDWRITING (TYPEWRITER) === //
+let typeWriterTimeout = null;
+
+window.startTypeWriter = function() {
+    const descElement = document.getElementById('about-desc');
+    const cursor = document.getElementById('type-cursor');
+    if (!descElement || !cursor) return;
+
+    const fullText = descElement.getAttribute('data-text');
+    descElement.innerHTML = ''; 
+    cursor.classList.remove('hidden'); 
+    
+    if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
+
+    let i = 0;
+    function type() {
+        if (i < fullText.length) {
+            descElement.innerHTML += fullText.charAt(i);
+            i++;
+            typeWriterTimeout = setTimeout(type, 20); 
+        } else {
+            cursor.classList.add('hidden'); 
+        }
+    }
+    type();
+}
+
+
+// === 3. LOGIKA NAVIGASI TAB & HISTORY API === //
 window.showSection = function(sectionId, isFromHistory = false) {
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(sec => {
@@ -25,14 +53,19 @@ window.showSection = function(sectionId, isFromHistory = false) {
 
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
-        // Hapus class 'active' dari semua elemen '.reveal' di dalam section ini
-        // agar saat section dibuka lagi, elemen bisa muncul secara perlahan (teranimasi kembali)
         const revealsInside = targetSection.querySelectorAll('.reveal');
         revealsInside.forEach(el => el.classList.remove('active'));
 
         targetSection.classList.remove('hidden');
         void targetSection.offsetWidth; 
         targetSection.classList.add('animate-fade-in');
+
+        // Trigger animasi mengetik jika tab About dibuka
+        if (sectionId === 'about') {
+            setTimeout(window.startTypeWriter, 200); 
+        } else {
+            if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
+        }
     }
 
     const activeSidebarBtn = document.querySelector(`.nav-btn[data-target="${sectionId}"]`);
@@ -91,7 +124,7 @@ window.addEventListener('popstate', function(event) {
 });
 
 
-// === 3. LOGIKA DARK MODE === //
+// === 4. LOGIKA DARK MODE === //
 const themeToggleBtn = document.getElementById('theme-toggle');
 const darkIcon = document.getElementById('theme-toggle-dark-icon');
 const lightIcon = document.getElementById('theme-toggle-light-icon');
@@ -120,7 +153,7 @@ themeToggleBtn.addEventListener('click', function() {
 });
 
 
-// === 4. LOGIKA MODAL PROJECT === //
+// === 5. LOGIKA MODAL PROJECT === //
 const modal = document.getElementById('project-modal');
 const modalContent = document.getElementById('project-modal-content');
 let currentImagesArray = [];
@@ -217,7 +250,7 @@ modal.addEventListener('click', function(e) {
 });
 
 
-// === 5. LOGIKA SCROLL REVEAL ANIMASI === //
+// === 6. LOGIKA SCROLL REVEAL ANIMASI === //
 function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -235,11 +268,9 @@ function initScrollReveal() {
         observer.observe(reveal);
     });
 }
-// Eksekusi fungsi scroll reveal
-setTimeout(initScrollReveal, 100);
 
 
-// === 6. LOGIKA KANVAS ANIMASI RUANG ANGKASA === //
+// === 7. LOGIKA KANVAS ANIMASI RUANG ANGKASA === //
 const canvas = document.getElementById('space-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -338,3 +369,7 @@ function animate() {
 }
 
 animate();
+
+// === 8. EKSEKUSI ANIMASI SAAT WEB DIMUAT PERTAMA KALI === //
+setTimeout(initScrollReveal, 100);
+setTimeout(window.startTypeWriter, 400);
