@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kafit Mustofa - Portfolio</title>
+    <title>Kafit Mustofa - Personal Portfolio</title>
     
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,7 +62,9 @@
     <!-- App Container (Dirender oleh main.js) -->
     <div id="app" class="max-w-6xl w-full my-auto flex flex-col lg:flex-row gap-6 h-auto lg:h-[85vh]"></div>
 
-    <!-- Modal Popup Container -->
+    <!-- ============================================== -->
+    <!-- MODAL POPUP PROJECT                            -->
+    <!-- ============================================== -->
     <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
         <div id="project-modal-content" class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80">
@@ -85,6 +87,44 @@
                     <span id="modal-type-cursor" class="inline-block w-1.5 h-4 bg-primary ml-1 animate-pulse hidden align-middle"></span>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL STORY (IG STYLE) UNTUK FOTO PROFIL       -->
+    <!-- ============================================== -->
+    <div id="story-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        
+        <!-- Tombol Tutup (Kanan Atas) -->
+        <button onclick="closeStory()" class="absolute top-4 right-4 md:top-6 md:right-8 text-white/70 hover:text-white transition-colors z-50">
+            <i class="fa-solid fa-xmark text-3xl"></i>
+        </button>
+
+        <!-- Container Story (Rasio 9:16) -->
+        <div id="story-content" class="relative w-full max-w-[400px] aspect-[9/16] bg-gray-900 rounded-xl overflow-hidden shadow-2xl flex items-center justify-center transform scale-95 transition-transform duration-300">
+            
+            <!-- Indikator Bar di Atas Gambar -->
+            <div class="absolute top-0 inset-x-0 p-3 pt-4 flex gap-1 z-30" id="story-indicators">
+                <!-- Bar di-generate lewat JavaScript -->
+            </div>
+
+            <!-- Gambar Story -->
+            <img id="story-image" src="" alt="Story" class="w-full h-full object-cover transition-opacity duration-300">
+
+            <!-- Gradient bayangan hitam di atas agar indikator bar selalu terlihat jelas -->
+            <div class="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/60 to-transparent z-20 pointer-events-none"></div>
+
+            <!-- Tombol Panah Prev/Next Kelihatan (untuk PC) -->
+            <button onclick="prevStory(event)" id="story-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors z-40 hidden md:flex">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button onclick="nextStory(event)" id="story-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors z-40 hidden md:flex">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <!-- Area klik transparan Kiri & Kanan (Gaya Asli IG Story di HP) -->
+            <div class="absolute inset-y-0 left-0 w-[30%] z-30 cursor-pointer" onclick="prevStory(event)"></div>
+            <div class="absolute inset-y-0 right-0 w-[70%] z-30 cursor-pointer" onclick="nextStory(event)"></div>
         </div>
     </div>
 
