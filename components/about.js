@@ -5,7 +5,7 @@ export const About = () => `
 
     <div class="reveal flex justify-center mb-6 md:mb-8">
         <div class="w-40 h-48 md:w-48 md:h-56 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm bg-blue-100">
-            <img src="https://i.pravatar.cc/300?img=11" alt="Foto Kafit Mustofa" class="w-full h-full object-cover">
+            <img src="/img/icon/profil.jpg" alt="Foto Kafit Mustofa" class="w-full h-full object-cover">
         </div>
     </div>
 
