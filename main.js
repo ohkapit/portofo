@@ -21,7 +21,7 @@ const storyIndicators = document.getElementById('story-indicators');
 // Data Gambar Story (Ganti dengan URL foto Anda)
 const storyImagesData = [
     'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=400&h=711&auto=format&fit=crop', 
-    'https://images.unsplash.com/photo-1531297172867-4b44ca326084?q=80&w=400&h=711&auto=format&fit=crop', 
+    'https://id.pinterest.com/pin/664140276338708762/', 
     'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=400&h=711&auto=format&fit=crop'  
 ];
 let currentStoryIndex = 0;
