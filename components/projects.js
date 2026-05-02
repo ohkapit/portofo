@@ -4,7 +4,7 @@ export const Projects = () => {
     const projectData = [
         {
             title: "Si Pak Komputer",
-            desc: "Sistem Pakar Kerusakan Komputer adalah aplikasi berbasis web yang membantu pengguna untuk mendiagnosis kerusakan pada komputer beserta solusi perbaikannya berdasarkan gejala yang dialami. Dibangun menggunakan teknologi yang handal dan mudah digunakan.",
+            desc: "Sistem Pakar Kerusakan Komputer adalah aplikasi berbasis web yang membantu pengguna untuk mendiagnosis kerusakan pada komputer beserta solusi perbaikannya berdasarkan gejala yang dialami.",
             images: ['https://picsum.photos/seed/project1a/600/400', 'https://picsum.photos/seed/project1b/600/400', 'https://picsum.photos/seed/project1c/600/400'],
             link: "https://drive.google.com/file/d/1oW2x9dmAZ3UidtX-BPjqyrJelBiroxB3/view?usp=sharing"
         },
