@@ -8,12 +8,20 @@ export const Sidebar = () => `
 
     <div class="flex flex-col items-center mt-4">
         
-        <!-- === FOTO PROFIL DENGAN GRADIENT BORDER & FUNGSI BUKA STORY === -->
-        <div onclick="openStory()" class="w-28 h-28 md:w-32 md:h-32 rounded-full p-1 bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 shadow-lg mb-4 shrink-0 transition-transform duration-300 hover:scale-105 cursor-pointer title="Klik untuk lihat Story">
-            <div class="w-full h-full rounded-full overflow-hidden border-[3px] border-white dark:border-gray-800 bg-blue-100 flex items-center justify-center">
+        <!-- === FOTO PROFIL DENGAN GRADIENT BERKEDIP (PULSE SLOW) === -->
+        <!-- Memisahkan gradient dan foto menjadi Absolute layer agar foto tidak ikut berkedip -->
+        <div onclick="openStory()" class="relative w-28 h-28 md:w-32 md:h-32 mb-4 shrink-0 transition-transform duration-300 hover:scale-105 cursor-pointer" title="Klik untuk lihat Story">
+            
+            <!-- Layer 1: Background Gradient Berkedip -->
+            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 animate-pulse-slow shadow-lg"></div>
+            
+            <!-- Layer 2: Foto (Solid, Tidak Berkedip, dengan celah border 4px lewat inset) -->
+            <div class="absolute inset-[4px] rounded-full overflow-hidden border-[3px] border-white dark:border-gray-800 bg-blue-100 flex items-center justify-center z-10">
                 <img src="https://i.pravatar.cc/300?img=11" alt="Kafit Mustofa" class="w-full h-full object-cover">
             </div>
+
         </div>
+        <!-- ========================================================= -->
         
         <h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white text-center">Kafit Mustofa</h1>
         <p class="text-sm text-center text-gray-600 dark:text-gray-400 mt-2 font-medium px-2">
