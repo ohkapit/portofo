@@ -20,11 +20,20 @@
                 extend: {
                     fontFamily: { poppins: ['Poppins', 'sans-serif'] },
                     colors: { primary: '#3366cc', bgLight1: '#4facfe', bgLight2: '#00f2fe' },
-                    animation: { 'fade-in': 'fadeIn 0.4s ease-out forwards' },
+                    animation: { 
+                        'fade-in': 'fadeIn 0.4s ease-out forwards',
+                        // Animasi berkedip pelan (3 detik per siklus)
+                        'pulse-slow': 'pulseSlow 3s infinite ease-in-out' 
+                    },
                     keyframes: {
                         fadeIn: {
                             '0%': { opacity: '0', transform: 'translateY(10px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        // Logika keyframe kedap-kedip
+                        pulseSlow: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.3' }, // Turun ke 30% transparansi lalu naik lagi
                         }
                     }
                 }
@@ -95,34 +104,22 @@
     <!-- ============================================== -->
     <div id="story-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
         
-        <!-- Tombol Tutup (Kanan Atas) -->
+        <!-- Tombol Tutup -->
         <button onclick="closeStory()" class="absolute top-4 right-4 md:top-6 md:right-8 text-white/70 hover:text-white transition-colors z-50">
             <i class="fa-solid fa-xmark text-3xl"></i>
         </button>
 
-        <!-- Container Story (Rasio 9:16) -->
+        <!-- Container Story -->
         <div id="story-content" class="relative w-full max-w-[400px] aspect-[9/16] bg-gray-900 rounded-xl overflow-hidden shadow-2xl flex items-center justify-center transform scale-95 transition-transform duration-300">
             
-            <!-- Indikator Bar di Atas Gambar -->
-            <div class="absolute top-0 inset-x-0 p-3 pt-4 flex gap-1 z-30" id="story-indicators">
-                <!-- Bar di-generate lewat JavaScript -->
-            </div>
-
-            <!-- Gambar Story -->
+            <div class="absolute top-0 inset-x-0 p-3 pt-4 flex gap-1 z-30" id="story-indicators"></div>
             <img id="story-image" src="" alt="Story" class="w-full h-full object-cover transition-opacity duration-300">
-
-            <!-- Gradient bayangan hitam di atas agar indikator bar selalu terlihat jelas -->
             <div class="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/60 to-transparent z-20 pointer-events-none"></div>
 
-            <!-- Tombol Panah Prev/Next Kelihatan (untuk PC) -->
-            <button onclick="prevStory(event)" id="story-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors z-40 hidden md:flex">
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button onclick="nextStory(event)" id="story-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors z-40 hidden md:flex">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
+            <button onclick="prevStory(event)" id="story-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors z-40 hidden md:flex"><i class="fa-solid fa-chevron-left"></i></button>
+            <button onclick="nextStory(event)" id="story-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors z-40 hidden md:flex"><i class="fa-solid fa-chevron-right"></i></button>
 
-            <!-- Area klik transparan Kiri & Kanan (Gaya Asli IG Story di HP) -->
+            <!-- Area Klik -->
             <div class="absolute inset-y-0 left-0 w-[30%] z-30 cursor-pointer" onclick="prevStory(event)"></div>
             <div class="absolute inset-y-0 right-0 w-[70%] z-30 cursor-pointer" onclick="nextStory(event)"></div>
         </div>
