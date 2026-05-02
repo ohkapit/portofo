@@ -21,7 +21,7 @@ export const Projects = () => {
             link: "#"
         },
         {
-            title: "Sistem Info Perpustakaan",
+            title: "Miekadosurabaya",
             desc: "Aplikasi manajemen perpustakaan digital untuk mempermudah proses peminjaman, pengembalian, dan pendataan buku secara efisien dan terstruktur.",
             images: ['./img/project/pro1.png', 'https://picsum.photos/seed/project4b/600/400'],
             link: "#"
