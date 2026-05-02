@@ -23,6 +23,9 @@ const storyImagesData = [
     './img/icon/slid1.jpg', 
     './img/icon/slid2.jpg', 
     'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=400&h=711&auto=format&fit=crop'  
+    './img/icon/slid1.jpg', 
+    './img/icon/slid2.jpg', 
+    'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=400&h=711&auto=format&fit=crop' 
 ];
 let currentStoryIndex = 0;
 
