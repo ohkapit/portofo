@@ -8,18 +8,17 @@ const SPEED_ABOUT = 70;
 const SPEED_PROJECT = 30;  
 // ========================================================= //
 
-
 // === 1. RENDER APLIKASI UTAMA === //
 document.getElementById('app').innerHTML = Sidebar() + Content();
 
 
-// === 2. LOGIKA STORY MODAL (INSTAGRAM STYLE) === //
+// === 2. LOGIKA STORY MODAL (INSTAGRAM STYLE) & HISTORY API === //
 const storyModal = document.getElementById('story-modal');
 const storyContent = document.getElementById('story-content');
 const storyImage = document.getElementById('story-image');
 const storyIndicators = document.getElementById('story-indicators');
 
-// Data Gambar Story (SILAKAN GANTI DENGAN LINK FOTO ANDA)
+// Data Gambar Story (Ganti dengan URL foto Anda)
 const storyImagesData = [
     'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=400&h=711&auto=format&fit=crop', 
     'https://images.unsplash.com/photo-1531297172867-4b44ca326084?q=80&w=400&h=711&auto=format&fit=crop', 
@@ -27,20 +26,38 @@ const storyImagesData = [
 ];
 let currentStoryIndex = 0;
 
-window.openStory = function() {
+window.openStory = function(isFromHistory = false) {
     currentStoryIndex = 0;
     storyModal.classList.remove('pointer-events-none');
     storyModal.classList.add('opacity-100');
     storyContent.classList.remove('scale-95');
     storyContent.classList.add('scale-100');
     updateStoryUI();
+
+    // Tambahkan status ke history HP saat Story dibuka
+    if (!isFromHistory && window.innerWidth < 1024) {
+        history.pushState({ view: 'story' }, '', '#story');
+    }
 }
 
-window.closeStory = function() {
+window.closeStory = function(isFromHistory = false) {
     storyModal.classList.add('pointer-events-none');
     storyModal.classList.remove('opacity-100');
     storyContent.classList.add('scale-95');
     storyContent.classList.remove('scale-100');
+
+    // FITUR: Ubah Border Gradient menjadi Border Biasa (Story Dilihat/Seen)
+    const profileBorder = document.getElementById('profile-border');
+    if (profileBorder) {
+        profileBorder.className = "absolute inset-0 rounded-full bg-gray-300 dark:bg-gray-600 shadow-sm transition-all duration-500";
+    }
+
+    // Jika ditutup manual (X atau area hitam), atur history agar back (mundur) satu kali
+    if (!isFromHistory && window.innerWidth < 1024) {
+        if (history.state && history.state.view === 'story') {
+            history.back();
+        }
+    }
 }
 
 window.nextStory = function(e) {
@@ -49,7 +66,7 @@ window.nextStory = function(e) {
         currentStoryIndex++;
         updateStoryUI();
     } else {
-        closeStory(); 
+        window.closeStory(); // Tutup jika foto habis
     }
 }
 
@@ -87,6 +104,7 @@ function updateStoryUI() {
     });
 }
 
+// Tutup story jika klik area hitam (backdrop)
 storyModal.addEventListener('click', function(e) {
     if (e.target === storyModal) window.closeStory();
 });
@@ -120,7 +138,7 @@ window.startTypeWriter = function() {
 }
 
 
-// === 4. LOGIKA NAVIGASI TAB & HISTORY API === //
+// === 4. LOGIKA NAVIGASI TAB & HISTORY API KESELURUHAN === //
 window.showSection = function(sectionId, isFromHistory = false) {
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(sec => {
@@ -199,9 +217,17 @@ if (window.innerWidth < 1024) {
     history.replaceState({ view: 'menu' }, '', window.location.pathname);
 }
 
+// LOGIKA PENDETEKSI TOMBOL BACK HP
 window.addEventListener('popstate', function(event) {
+    const state = event.state;
+    
+    // Periksa jika Modal Story terbuka saat tombol back ditekan
+    const isStoryOpen = !storyModal.classList.contains('pointer-events-none');
+    if (isStoryOpen && (!state || state.view !== 'story')) {
+        window.closeStory(true); // true = abaikan penulisan history tambahan
+    }
+
     if (window.innerWidth < 1024) {
-        const state = event.state;
         if (!state || state.view === 'menu') {
             window.showSidebar(true);
         } else if (state.view === 'content') {
