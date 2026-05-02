@@ -4,7 +4,8 @@ import { Content } from './components/content.js';
 // === 1. RENDER APLIKASI UTAMA === //
 document.getElementById('app').innerHTML = Sidebar() + Content();
 
-// === 2. LOGIKA ANIMASI HANDWRITING (TYPEWRITER) === //
+
+// === 2. LOGIKA ANIMASI HANDWRITING (ABOUT) === //
 let typeWriterTimeout = null;
 
 window.startTypeWriter = function() {
@@ -23,7 +24,8 @@ window.startTypeWriter = function() {
         if (i < fullText.length) {
             descElement.innerHTML += fullText.charAt(i);
             i++;
-            typeWriterTimeout = setTimeout(type, 70); 
+            // Kecepatan mengetik About diatur ke 50 agar sedikit lebih lambat
+            typeWriterTimeout = setTimeout(type, 50); 
         } else {
             cursor.classList.add('hidden'); 
         }
@@ -60,7 +62,7 @@ window.showSection = function(sectionId, isFromHistory = false) {
         void targetSection.offsetWidth; 
         targetSection.classList.add('animate-fade-in');
 
-        // Trigger animasi mengetik jika tab About dibuka
+        // Trigger animasi mengetik About
         if (sectionId === 'about') {
             setTimeout(window.startTypeWriter, 200); 
         } else {
@@ -153,18 +155,18 @@ themeToggleBtn.addEventListener('click', function() {
 });
 
 
-// === 5. LOGIKA MODAL PROJECT === //
+// === 5. LOGIKA MODAL PROJECT & TYPEWRITER MODAL === //
 const modal = document.getElementById('project-modal');
 const modalContent = document.getElementById('project-modal-content');
 let currentImagesArray = [];
 let currentImageIndex = 0;
+let modalTypeWriterTimeout = null;
 
 window.openModal = function(title, description, imgData) {
     currentImagesArray = Array.isArray(imgData) ? imgData : [imgData];
     currentImageIndex = 0;
     
     document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-desc').innerText = description;
     
     updateModalImage();
     renderThumbnails();
@@ -177,6 +179,28 @@ window.openModal = function(title, description, imgData) {
     modal.classList.add('opacity-100');
     modalContent.classList.remove('scale-95');
     modalContent.classList.add('scale-100');
+
+    // LOGIKA HANDWRITING UNTUK DESKRIPSI MODAL
+    const descElement = document.getElementById('modal-desc');
+    const cursor = document.getElementById('modal-type-cursor');
+    
+    descElement.innerHTML = ''; 
+    if (cursor) cursor.classList.remove('hidden'); 
+    
+    if (modalTypeWriterTimeout) clearTimeout(modalTypeWriterTimeout);
+
+    let i = 0;
+    function typeModal() {
+        if (i < description.length) {
+            descElement.innerHTML += description.charAt(i);
+            i++;
+            modalTypeWriterTimeout = setTimeout(typeModal, 30); 
+        } else {
+            if (cursor) cursor.classList.add('hidden'); 
+        }
+    }
+    
+    setTimeout(typeModal, 300); 
 }
 
 function updateModalImage() {
@@ -243,6 +267,9 @@ window.closeModal = function() {
     modal.classList.add('pointer-events-none');
     modalContent.classList.remove('scale-100');
     modalContent.classList.add('scale-95');
+
+    // Hentikan proses ketikan saat user menutup pop-up
+    if (modalTypeWriterTimeout) clearTimeout(modalTypeWriterTimeout);
 }
 
 modal.addEventListener('click', function(e) {
@@ -370,6 +397,6 @@ function animate() {
 
 animate();
 
-// === 8. EKSEKUSI ANIMASI SAAT WEB DIMUAT PERTAMA KALI === //
+// === 8. EKSEKUSI AWAL === //
 setTimeout(initScrollReveal, 100);
 setTimeout(window.startTypeWriter, 400);
