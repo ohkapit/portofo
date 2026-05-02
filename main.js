@@ -1,6 +1,15 @@
 import { Sidebar } from './components/sidebar.js';
 import { Content } from './components/content.js';
 
+// ========================================================= //
+// === SETTING KECEPATAN ANIMASI MENGETIK (UBAH DI SINI) === //
+// ========================================================= //
+// Angka dalam milidetik (Semakin besar angkanya = semakin lambat)
+const SPEED_ABOUT = 70;    // Kecepatan ketikan di menu About
+const SPEED_PROJECT = 30;  // Kecepatan ketikan di Pop-up Project
+// ========================================================= //
+
+
 // === 1. RENDER APLIKASI UTAMA === //
 document.getElementById('app').innerHTML = Sidebar() + Content();
 
@@ -24,8 +33,8 @@ window.startTypeWriter = function() {
         if (i < fullText.length) {
             descElement.innerHTML += fullText.charAt(i);
             i++;
-            // Kecepatan mengetik About diatur ke 50 agar sedikit lebih lambat
-            typeWriterTimeout = setTimeout(type, 50); 
+            // Menggunakan variabel SPEED_ABOUT dari setting di atas
+            typeWriterTimeout = setTimeout(type, SPEED_ABOUT); 
         } else {
             cursor.classList.add('hidden'); 
         }
@@ -194,7 +203,8 @@ window.openModal = function(title, description, imgData) {
         if (i < description.length) {
             descElement.innerHTML += description.charAt(i);
             i++;
-            modalTypeWriterTimeout = setTimeout(typeModal, 30); 
+            // Menggunakan variabel SPEED_PROJECT dari setting di atas
+            modalTypeWriterTimeout = setTimeout(typeModal, SPEED_PROJECT); 
         } else {
             if (cursor) cursor.classList.add('hidden'); 
         }
