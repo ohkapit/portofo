@@ -1,5 +1,5 @@
 export const Card = ({ title, desc, images, link }) => `
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md shadow-gray-200 dark:shadow-gray-900 overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-100 dark:border-gray-700">
+<div class="reveal bg-white dark:bg-gray-800 rounded-lg shadow-md shadow-gray-200 dark:shadow-gray-900 overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-100 dark:border-gray-700">
     <div class="w-full aspect-[4/3] bg-gray-200 dark:bg-gray-700 overflow-hidden cursor-pointer relative group" onclick="openModal('${title}', '${desc}', [${images.map(img => `'${img}'`).join(',')}])">
         <img src="${images[0]}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
     </div>
