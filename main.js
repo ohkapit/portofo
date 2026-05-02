@@ -1,36 +1,42 @@
 import { Sidebar } from './components/sidebar.js';
 import { Content } from './components/content.js';
 
-// 1. Render App
+// === 1. RENDER APLIKASI UTAMA === //
 document.getElementById('app').innerHTML = Sidebar() + Content();
 
-// === MENGHUBUNGKAN FUNGSI KE WINDOW (KARENA MODULE ES6 MEMBUATNYA PRIVATE) === //
+// === 2. LOGIKA NAVIGASI TAB & HISTORY API (TOMBOL BACK HP) === //
 
-window.showSection = function(sectionId) {
+// Tambahkan parameter isFromHistory agar tidak terjadi loop saat tombol back HP ditekan
+window.showSection = function(sectionId, isFromHistory = false) {
+    // Sembunyikan semua section
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(sec => {
         sec.classList.add('hidden');
         sec.classList.remove('animate-fade-in');
     });
 
+    // Reset style tombol sidebar
     const sidebarButtons = document.querySelectorAll('.nav-btn');
     sidebarButtons.forEach(btn => {
         btn.className = 'nav-btn w-full py-2.5 md:py-3 px-2 md:px-4 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700';
         if(btn.getAttribute('data-target') === 'cv') btn.classList.add('col-span-2', 'lg:col-span-1');
     });
 
+    // Reset style tombol top nav (mobile)
     const mobileButtons = document.querySelectorAll('.nav-btn-mobile');
     mobileButtons.forEach(btn => {
         btn.className = 'nav-btn-mobile shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-transparent';
     });
 
+    // Tampilkan section yang dituju
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
         targetSection.classList.remove('hidden');
-        void targetSection.offsetWidth; 
+        void targetSection.offsetWidth; // Trigger reflow untuk animasi
         targetSection.classList.add('animate-fade-in');
     }
 
+    // Highlight tombol sidebar yang aktif
     const activeSidebarBtn = document.querySelector(`.nav-btn[data-target="${sectionId}"]`);
     if (activeSidebarBtn) {
         let activeClasses = 'nav-btn w-full py-2.5 md:py-3 px-2 md:px-4 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 bg-primary text-white shadow-md';
@@ -38,6 +44,7 @@ window.showSection = function(sectionId) {
         activeSidebarBtn.className = activeClasses;
     }
 
+    // Highlight tombol top nav yang aktif & scroll posisinya
     const activeMobileBtn = document.querySelector(`.nav-btn-mobile[data-target="${sectionId}"]`);
     if (activeMobileBtn) {
         activeMobileBtn.className = 'nav-btn-mobile shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 bg-primary text-white shadow-md border border-blue-400';
@@ -48,27 +55,57 @@ window.showSection = function(sectionId) {
         }
     }
 
+    // Tampilan Mobile/Tablet: Tampilkan konten, sembunyikan sidebar, catat History
     if (window.innerWidth < 1024) {
         document.getElementById('sidebar').classList.add('hidden');
         document.getElementById('main-content').classList.remove('hidden');
         window.scrollTo({top: 0, behavior: 'smooth'});
+        
+        // Catat ke history HP bahwa kita membuka konten baru
+        if (!isFromHistory) {
+            history.pushState({ view: 'content', section: sectionId }, '', `#${sectionId}`);
+        }
     }
 }
 
-window.showSidebar = function() {
+window.showSidebar = function(isFromHistory = false) {
     if (window.innerWidth < 1024) {
         document.getElementById('sidebar').classList.remove('hidden');
         document.getElementById('main-content').classList.add('hidden');
         window.scrollTo({top: 0, behavior: 'smooth'});
+        
+        // Reset history jika ditekan dari tombol UI (bukan tombol fisik HP)
+        if (!isFromHistory) {
+            history.pushState({ view: 'menu' }, '', window.location.pathname);
+        }
     }
 }
 
-// === LOGIKA DARK MODE ===
+// Inisialisasi History State untuk Mobile saat pertama kali web dimuat
+if (window.innerWidth < 1024) {
+    history.replaceState({ view: 'menu' }, '', window.location.pathname);
+}
+
+// Event Listener untuk tombol back/swipe back di HP
+window.addEventListener('popstate', function(event) {
+    if (window.innerWidth < 1024) {
+        const state = event.state;
+        if (!state || state.view === 'menu') {
+            window.showSidebar(true); // true = abaikan penambahan history baru
+        } else if (state.view === 'content') {
+            window.showSection(state.section, true);
+        }
+    }
+});
+
+
+// === 3. LOGIKA DARK MODE === //
 const themeToggleBtn = document.getElementById('theme-toggle');
 const darkIcon = document.getElementById('theme-toggle-dark-icon');
 const lightIcon = document.getElementById('theme-toggle-light-icon');
 const htmlElement = document.documentElement;
 
+// Cek preferensi awal
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     htmlElement.classList.add('dark');
     darkIcon.classList.remove('hidden');
@@ -91,7 +128,8 @@ themeToggleBtn.addEventListener('click', function() {
     }
 });
 
-// === LOGIKA MODAL PROJECT ===
+
+// === 4. LOGIKA MODAL PROJECT === //
 const modal = document.getElementById('project-modal');
 const modalContent = document.getElementById('project-modal-content');
 let currentImagesArray = [];
@@ -100,6 +138,7 @@ let currentImageIndex = 0;
 window.openModal = function(title, description, imgData) {
     currentImagesArray = Array.isArray(imgData) ? imgData : [imgData];
     currentImageIndex = 0;
+    
     document.getElementById('modal-title').innerText = title;
     document.getElementById('modal-desc').innerText = description;
     
@@ -118,10 +157,10 @@ window.openModal = function(title, description, imgData) {
 
 function updateModalImage() {
     const imgElement = document.getElementById('modal-image');
-    imgElement.style.opacity = '0';
+    imgElement.style.opacity = '0'; // Efek fade out
     setTimeout(() => {
         imgElement.src = currentImagesArray[currentImageIndex];
-        imgElement.style.opacity = '1';
+        imgElement.style.opacity = '1'; // Efek fade in
     }, 150);
     highlightActiveThumbnail();
 }
@@ -144,10 +183,12 @@ window.setModalImageByIndex = function(index) {
 function renderThumbnails() {
     const thumbContainer = document.getElementById('modal-thumbnails');
     thumbContainer.innerHTML = ''; 
+    
     if (currentImagesArray.length <= 1) {
         thumbContainer.classList.add('hidden');
         return;
     }
+    
     thumbContainer.classList.remove('hidden');
     currentImagesArray.forEach((src, index) => {
         const img = document.createElement('img');
@@ -182,13 +223,18 @@ window.closeModal = function() {
     modalContent.classList.add('scale-95');
 }
 
+// Tutup modal jika user mengklik area luar modal
 modal.addEventListener('click', function(e) {
-    if (e.target === modal) window.closeModal();
+    if (e.target === modal) {
+        window.closeModal();
+    }
 });
 
-// === LOGIKA CANVAS ANIMASI ===
+
+// === 5. LOGIKA KANVAS ANIMASI RUANG ANGKASA === //
 const canvas = document.getElementById('space-canvas');
 const ctx = canvas.getContext('2d');
+
 let width, height;
 let stars = [];
 let shootingStar = null;
@@ -204,7 +250,10 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 class Star {
-    constructor() { this.reset(); }
+    constructor() {
+        this.reset();
+    }
+
     reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
@@ -213,17 +262,20 @@ class Star {
         this.opacity = Math.random();
         this.opacityChange = (Math.random() * 0.02) - 0.01;
     }
+
     update() {
         this.y -= this.speed;
         if (this.y < 0) {
             this.y = height;
             this.x = Math.random() * width;
         }
+        
         this.opacity += this.opacityChange;
         if (this.opacity > 1 || this.opacity < 0.1) {
             this.opacityChange = -this.opacityChange;
         }
     }
+
     draw(isDark) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -234,7 +286,10 @@ class Star {
 }
 
 class ShootingStar {
-    constructor() { this.active = false; }
+    constructor() {
+        this.active = false;
+    }
+
     spawn() {
         this.x = Math.random() * width;
         this.y = 0;
@@ -245,41 +300,59 @@ class ShootingStar {
         this.active = true;
         this.opacity = 1;
     }
+
     update() {
         if (!this.active) return;
         this.x += this.speedX;
         this.y += this.speedY;
         this.opacity -= 0.015;
-        if (this.opacity <= 0 || this.y > height) this.active = false;
+
+        if (this.opacity <= 0 || this.y > height) {
+            this.active = false;
+        }
     }
+
     draw(isDark) {
         if (!this.active) return;
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(this.x - this.speedX * 4, this.y - this.speedY * 4);
         ctx.lineWidth = this.size;
+        
         const baseOpacity = isDark ? this.opacity : this.opacity * 0.6;
         const grad = ctx.createLinearGradient(this.x, this.y, this.x - this.speedX * 4, this.y - this.speedY * 4);
         grad.addColorStop(0, `rgba(255, 255, 255, ${baseOpacity})`);
         grad.addColorStop(1, `rgba(255, 255, 255, 0)`);
+        
         ctx.strokeStyle = grad;
         ctx.stroke();
     }
 }
 
-for (let i = 0; i < 150; i++) stars.push(new Star());
+// Inisialisasi bintang
+for (let i = 0; i < 150; i++) {
+    stars.push(new Star());
+}
 shootingStar = new ShootingStar();
 
+// Loop Animasi
 function animate() {
     ctx.clearRect(0, 0, width, height);
+    
     const isDark = document.documentElement.classList.contains('dark');
+
     stars.forEach(star => {
         star.update();
         star.draw(isDark);
     });
-    if (!shootingStar.active && Math.random() < 0.005) shootingStar.spawn();
+
+    if (!shootingStar.active && Math.random() < 0.005) {
+        shootingStar.spawn();
+    }
+
     shootingStar.update();
     shootingStar.draw(isDark);
+
     requestAnimationFrame(animate);
 }
 
