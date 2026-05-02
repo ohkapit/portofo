@@ -4,10 +4,11 @@ export const Contact = () => `
 <section id="contact" class="content-section hidden">
     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Contact</h2>
     <div class="w-full h-px bg-gray-200 dark:bg-gray-700 mb-6 md:mb-8"></div>
+    
     <div class="flex flex-col lg:flex-row gap-8">
-        <div class="lg:w-1/3 flex flex-col gap-5 md:gap-6">
+        <div class="reveal lg:w-1/3 flex flex-col gap-5 md:gap-6">
             <h3 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white mb-1 md:mb-2">Mari Terhubung!</h3>
-            <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">Apakah Anda memiliki pertanyaan atau tawaran kerjasama? Jangan ragu untuk menghubungi saya.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">Apakah Anda memiliki pertanyaan atau tawaran kerjasama? Jangan ragu untuk menghubungi saya melalui kontak di bawah ini.</p>
             
             <div class="flex items-center gap-4 transition-transform duration-300 hover:translate-x-1">
                 <div class="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-blue-50 dark:bg-gray-700 text-primary dark:text-blue-400 rounded-full flex items-center justify-center text-lg md:text-xl shadow-sm border border-blue-100 dark:border-gray-600"><i class="fa-solid fa-envelope"></i></div>
@@ -28,7 +29,7 @@ export const Contact = () => `
             ${Sosmed()}
         </div>
 
-        <div class="lg:w-2/3 bg-gray-50 dark:bg-gray-800/50 p-5 md:p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mt-4 lg:mt-0">
+        <div class="reveal lg:w-2/3 bg-gray-50 dark:bg-gray-800/50 p-5 md:p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mt-4 lg:mt-0">
             <form action="#" method="POST" class="flex flex-col gap-4 md:gap-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                     <div class="relative group">
