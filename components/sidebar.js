@@ -16,7 +16,7 @@ export const Sidebar = () => `
             
             <!-- Layer 2: Foto -->
             <div class="absolute inset-[4px] rounded-full overflow-hidden border-[3px] border-white dark:border-gray-800 bg-blue-100 flex items-center justify-center z-10">
-                <img src="https://i.pravatar.cc/300?img=10" alt="Kafit Mustofa" class="w-full h-full object-cover">
+                <img src="/img/icon/kaf1.jpeg" alt="Kafit Mustofa" class="w-full h-full object-cover">
             </div>
         </div>
         
