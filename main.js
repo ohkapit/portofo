@@ -4,9 +4,8 @@ import { Content } from './components/content.js';
 // ========================================================= //
 // === SETTING KECEPATAN ANIMASI MENGETIK (UBAH DI SINI) === //
 // ========================================================= //
-// Angka dalam milidetik (Semakin besar angkanya = semakin lambat)
-const SPEED_ABOUT = 70;    // Kecepatan ketikan di menu About
-const SPEED_PROJECT = 50;  // Kecepatan ketikan di Pop-up Project
+const SPEED_ABOUT = 70;    
+const SPEED_PROJECT = 30;  
 // ========================================================= //
 
 
@@ -14,7 +13,86 @@ const SPEED_PROJECT = 50;  // Kecepatan ketikan di Pop-up Project
 document.getElementById('app').innerHTML = Sidebar() + Content();
 
 
-// === 2. LOGIKA ANIMASI HANDWRITING (ABOUT) === //
+// === 2. LOGIKA STORY MODAL (INSTAGRAM STYLE) === //
+const storyModal = document.getElementById('story-modal');
+const storyContent = document.getElementById('story-content');
+const storyImage = document.getElementById('story-image');
+const storyIndicators = document.getElementById('story-indicators');
+
+// Data Gambar Story (SILAKAN GANTI DENGAN LINK FOTO ANDA)
+const storyImagesData = [
+    'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=400&h=711&auto=format&fit=crop', 
+    'https://images.unsplash.com/photo-1531297172867-4b44ca326084?q=80&w=400&h=711&auto=format&fit=crop', 
+    'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=400&h=711&auto=format&fit=crop'  
+];
+let currentStoryIndex = 0;
+
+window.openStory = function() {
+    currentStoryIndex = 0;
+    storyModal.classList.remove('pointer-events-none');
+    storyModal.classList.add('opacity-100');
+    storyContent.classList.remove('scale-95');
+    storyContent.classList.add('scale-100');
+    updateStoryUI();
+}
+
+window.closeStory = function() {
+    storyModal.classList.add('pointer-events-none');
+    storyModal.classList.remove('opacity-100');
+    storyContent.classList.add('scale-95');
+    storyContent.classList.remove('scale-100');
+}
+
+window.nextStory = function(e) {
+    if (e) e.stopPropagation();
+    if (currentStoryIndex < storyImagesData.length - 1) {
+        currentStoryIndex++;
+        updateStoryUI();
+    } else {
+        closeStory(); 
+    }
+}
+
+window.prevStory = function(e) {
+    if (e) e.stopPropagation();
+    if (currentStoryIndex > 0) {
+        currentStoryIndex--;
+        updateStoryUI();
+    }
+}
+
+function updateStoryUI() {
+    storyImage.style.opacity = '0';
+    setTimeout(() => {
+        storyImage.src = storyImagesData[currentStoryIndex];
+        storyImage.style.opacity = '1';
+    }, 150);
+
+    storyIndicators.innerHTML = '';
+    storyImagesData.forEach((_, index) => {
+        const barContainer = document.createElement('div');
+        barContainer.className = 'flex-1 h-1 bg-white/30 rounded-full overflow-hidden shadow-sm';
+        
+        const barFill = document.createElement('div');
+        barFill.className = 'h-full bg-white transition-all duration-300';
+        
+        if (index <= currentStoryIndex) {
+            barFill.style.width = '100%';
+        } else {
+            barFill.style.width = '0%';
+        }
+
+        barContainer.appendChild(barFill);
+        storyIndicators.appendChild(barContainer);
+    });
+}
+
+storyModal.addEventListener('click', function(e) {
+    if (e.target === storyModal) window.closeStory();
+});
+
+
+// === 3. LOGIKA ANIMASI HANDWRITING (ABOUT) === //
 let typeWriterTimeout = null;
 
 window.startTypeWriter = function() {
@@ -33,7 +111,6 @@ window.startTypeWriter = function() {
         if (i < fullText.length) {
             descElement.innerHTML += fullText.charAt(i);
             i++;
-            // Menggunakan variabel SPEED_ABOUT dari setting di atas
             typeWriterTimeout = setTimeout(type, SPEED_ABOUT); 
         } else {
             cursor.classList.add('hidden'); 
@@ -43,7 +120,7 @@ window.startTypeWriter = function() {
 }
 
 
-// === 3. LOGIKA NAVIGASI TAB & HISTORY API === //
+// === 4. LOGIKA NAVIGASI TAB & HISTORY API === //
 window.showSection = function(sectionId, isFromHistory = false) {
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(sec => {
@@ -71,7 +148,6 @@ window.showSection = function(sectionId, isFromHistory = false) {
         void targetSection.offsetWidth; 
         targetSection.classList.add('animate-fade-in');
 
-        // Trigger animasi mengetik About
         if (sectionId === 'about') {
             setTimeout(window.startTypeWriter, 200); 
         } else {
@@ -135,7 +211,7 @@ window.addEventListener('popstate', function(event) {
 });
 
 
-// === 4. LOGIKA DARK MODE === //
+// === 5. LOGIKA DARK MODE === //
 const themeToggleBtn = document.getElementById('theme-toggle');
 const darkIcon = document.getElementById('theme-toggle-dark-icon');
 const lightIcon = document.getElementById('theme-toggle-light-icon');
@@ -164,7 +240,7 @@ themeToggleBtn.addEventListener('click', function() {
 });
 
 
-// === 5. LOGIKA MODAL PROJECT & TYPEWRITER MODAL === //
+// === 6. LOGIKA MODAL PROJECT & TYPEWRITER MODAL === //
 const modal = document.getElementById('project-modal');
 const modalContent = document.getElementById('project-modal-content');
 let currentImagesArray = [];
@@ -177,7 +253,7 @@ window.openModal = function(title, description, imgData) {
     
     document.getElementById('modal-title').innerText = title;
     
-    updateModalImage();
+    updateModalProjectImage();
     renderThumbnails();
 
     const showArrows = currentImagesArray.length > 1;
@@ -189,7 +265,6 @@ window.openModal = function(title, description, imgData) {
     modalContent.classList.remove('scale-95');
     modalContent.classList.add('scale-100');
 
-    // LOGIKA HANDWRITING UNTUK DESKRIPSI MODAL
     const descElement = document.getElementById('modal-desc');
     const cursor = document.getElementById('modal-type-cursor');
     
@@ -203,17 +278,15 @@ window.openModal = function(title, description, imgData) {
         if (i < description.length) {
             descElement.innerHTML += description.charAt(i);
             i++;
-            // Menggunakan variabel SPEED_PROJECT dari setting di atas
             modalTypeWriterTimeout = setTimeout(typeModal, SPEED_PROJECT); 
         } else {
             if (cursor) cursor.classList.add('hidden'); 
         }
     }
-    
     setTimeout(typeModal, 300); 
 }
 
-function updateModalImage() {
+function updateModalProjectImage() {
     const imgElement = document.getElementById('modal-image');
     imgElement.style.opacity = '0';
     setTimeout(() => {
@@ -225,17 +298,17 @@ function updateModalImage() {
 
 window.nextModalImage = function() {
     currentImageIndex = (currentImageIndex + 1) % currentImagesArray.length;
-    updateModalImage();
+    updateModalProjectImage();
 }
 
 window.prevModalImage = function() {
     currentImageIndex = (currentImageIndex - 1 + currentImagesArray.length) % currentImagesArray.length;
-    updateModalImage();
+    updateModalProjectImage();
 }
 
 window.setModalImageByIndex = function(index) {
     currentImageIndex = index;
-    updateModalImage();
+    updateModalProjectImage();
 }
 
 function renderThumbnails() {
@@ -278,7 +351,6 @@ window.closeModal = function() {
     modalContent.classList.remove('scale-100');
     modalContent.classList.add('scale-95');
 
-    // Hentikan proses ketikan saat user menutup pop-up
     if (modalTypeWriterTimeout) clearTimeout(modalTypeWriterTimeout);
 }
 
@@ -287,7 +359,7 @@ modal.addEventListener('click', function(e) {
 });
 
 
-// === 6. LOGIKA SCROLL REVEAL ANIMASI === //
+// === 7. LOGIKA SCROLL REVEAL ANIMASI === //
 function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -301,13 +373,11 @@ function initScrollReveal() {
         rootMargin: "0px 0px -50px 0px"
     });
 
-    reveals.forEach(reveal => {
-        observer.observe(reveal);
-    });
+    reveals.forEach(reveal => observer.observe(reveal));
 }
 
 
-// === 7. LOGIKA KANVAS ANIMASI RUANG ANGKASA === //
+// === 8. LOGIKA KANVAS ANIMASI RUANG ANGKASA === //
 const canvas = document.getElementById('space-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -407,6 +477,6 @@ function animate() {
 
 animate();
 
-// === 8. EKSEKUSI AWAL === //
+// === 9. EKSEKUSI AWAL === //
 setTimeout(initScrollReveal, 100);
 setTimeout(window.startTypeWriter, 400);
