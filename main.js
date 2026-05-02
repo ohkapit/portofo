@@ -23,7 +23,7 @@ window.startTypeWriter = function() {
         if (i < fullText.length) {
             descElement.innerHTML += fullText.charAt(i);
             i++;
-            typeWriterTimeout = setTimeout(type, 20); 
+            typeWriterTimeout = setTimeout(type, 70); 
         } else {
             cursor.classList.add('hidden'); 
         }
