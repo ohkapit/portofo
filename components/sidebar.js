@@ -6,7 +6,7 @@ export const Sidebar = () => `
     </button>
     <div class="flex flex-col items-center mt-4">
         <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-md mb-4 bg-blue-100 flex items-center justify-center shrink-0">
-            <img src="https://i.pravatar.cc/300?img=22" alt="Kafit Mustofa" class="w-full h-full object-cover">
+            <img src="/img/icon/kaf1.jpg" alt="Kafit Mustofa" class="w-full h-full object-cover">
         </div>
         <h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white text-center">Kafit Mustofa</h1>
         <p class="text-sm text-center text-gray-600 dark:text-gray-400 mt-2 font-medium px-2">
