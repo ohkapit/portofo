@@ -6,7 +6,7 @@ import { Content } from './components/content.js';
 // ========================================================= //
 // Angka dalam milidetik (Semakin besar angkanya = semakin lambat)
 const SPEED_ABOUT = 70;    // Kecepatan ketikan di menu About
-const SPEED_PROJECT = 30;  // Kecepatan ketikan di Pop-up Project
+const SPEED_PROJECT = 50;  // Kecepatan ketikan di Pop-up Project
 // ========================================================= //
 
 
